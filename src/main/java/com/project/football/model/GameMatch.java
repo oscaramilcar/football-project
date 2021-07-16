@@ -51,7 +51,7 @@ public class GameMatch {
     @Column(name= "visitorScore")
     private int visitorScore;
 
-    //@OneToMany(cascade = CascadeType.ALL)
-    //@JoinColumn(name = "idGameMatch")
-    //private List<PlayerMatch> playerMatchList;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idGameMatch")
+    private List<PlayerMatch> playerMatchList;
 }

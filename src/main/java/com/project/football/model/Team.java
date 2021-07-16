@@ -30,11 +30,11 @@ public class Team {
     @Column(name = "image")
     private String image;
 
-    //@OneToMany(cascade = CascadeType.ALL)
-    //@JoinColumn(name = "idTeamPlayer")
-    //private List<Player> playerList;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idTeamPlayer")
+    private List<Player> playerList;
 
-    //@OneToMany(cascade = CascadeType.ALL)
-    //@JoinColumn(name = "IdTeamGame")
-    //private List<GameMatch> gameMatchList;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "IdTeamGame")
+    private List<GameMatch> gameMatchList;
 }
