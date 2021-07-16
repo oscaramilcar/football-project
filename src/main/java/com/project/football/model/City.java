@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,12 +27,4 @@ public class City {
     @ManyToOne
     @JoinColumn(name= "idCountry")
     private Country country;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idCityArbiter")
-    private List<Arbiter> arbiterList;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idCityStadium")
-    private List<Stadium> stadiumList;
 }
