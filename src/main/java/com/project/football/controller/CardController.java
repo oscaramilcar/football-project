@@ -4,7 +4,6 @@ import com.project.football.item.ArbiterItem;
 import com.project.football.item.CardItem;
 import com.project.football.item.IItem;
 import com.project.football.model.Card;
-import com.project.football.model.PlayerMatch;
 import com.project.football.repository.CardRepository;
 import com.project.football.repository.PlayerMatchRepository;
 import com.project.football.request.CardRequest;
@@ -32,7 +31,6 @@ public class CardController {
                 card.getPlayerMatch().getPlayer().getName(),
                 card.getPlayerMatch().getGameMatch().getDate()+"",
                 card.getPlayerMatch().getGameMatch().getLeague().getName());
-
     }
 
     @GetMapping
@@ -62,7 +60,7 @@ public class CardController {
 
     @PostMapping
     public IItem create(@RequestBody CardRequest cardTMP){
-        PlayerMatch playerMatch = playerMatchRepository.findById(cardTMP.getIdPlayerMatch()).orElse(null);
+        var playerMatch = playerMatchRepository.findById(cardTMP.getIdPlayerMatch()).orElse(null);
         var card = new Card(0, cardTMP.getColor(), cardTMP.getQuantity(), playerMatch);
         card = cardRepository.save(card);
 
@@ -71,8 +69,8 @@ public class CardController {
 
     @PutMapping
     public IItem update(@RequestBody CardRequest cardTMP){
-        Card card = cardRepository.findById(cardTMP.getIdCard()).orElse(null);
-        PlayerMatch playerMatch = playerMatchRepository.findById(cardTMP.getIdPlayerMatch()).orElse(null);
+        var card = cardRepository.findById(cardTMP.getIdCard()).orElse(null);
+        var playerMatch = playerMatchRepository.findById(cardTMP.getIdPlayerMatch()).orElse(null);
         card.setPlayerMatch(playerMatch);
         card.setColor(cardTMP.getColor());
         card.setQuantity(cardTMP.getQuantity());
@@ -86,7 +84,7 @@ public class CardController {
         cardRepository.deleteById(id);
     }
 
-    @GetMapping("player/{id}")
+    @GetMapping("/player/{id}")
     public List<IItem> getAllByPlayer(@PathVariable("id") long id){
         List<Card> cardList = cardRepository.findAll();
         List<IItem> itemList = new ArrayList<>();

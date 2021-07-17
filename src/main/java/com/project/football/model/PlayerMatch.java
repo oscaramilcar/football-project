@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,8 +30,4 @@ public class PlayerMatch {
     @ManyToOne
     @JoinColumn(name = "idGameMatch")
     private GameMatch gameMatch;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idPlayerMatch")
-    private List<Card> cardList;
 }

@@ -7,14 +7,15 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class CardItem implements IItem{
-    private long idCard;
-    private String color;
-    private int quantity;
-    private long playerMatch;
+@AllArgsConstructor
+public class PlayerMatchItem implements IItem{
+    private long idPlayerMatch;
     private String player;
-    private String date;
+    private int goals;
     private String league;
+    private String date;
+    private String team;
+    private long idGameMatch;
+    private long idPlayer;
 }
