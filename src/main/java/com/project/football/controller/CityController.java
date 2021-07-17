@@ -21,6 +21,7 @@ public class CityController {
         return new CityItem(
                 city.getIdCity(),
                 city.getName(),
+                city.getCountry().getName(),
                 city.getCountry().getIdCountry());
     }
 
