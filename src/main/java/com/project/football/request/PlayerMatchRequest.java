@@ -1,7 +1,5 @@
 package com.project.football.request;
 
-import com.project.football.model.GameMatch;
-import com.project.football.model.Player;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

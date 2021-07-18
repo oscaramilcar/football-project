@@ -5,13 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CardRequest {
-    private long idCard;
-    private String color;
-    private int quantity;
-    private long idPlayerMatch;
+@Getter
+@Setter
+public class StadiumRequest {
+    private long idStadium;
+    private String name;
+    private long idCity;
 }

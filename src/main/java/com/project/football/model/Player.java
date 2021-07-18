@@ -40,8 +40,4 @@ public class Player {
 
     @Column(name = "image")
     private String image;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idPlayer")
-    private List<PlayerMatch> playerMatchList;
 }

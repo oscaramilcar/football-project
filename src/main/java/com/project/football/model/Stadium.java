@@ -27,8 +27,4 @@ public class Stadium {
     @ManyToOne
     @JoinColumn(name="idCity")
     private City city;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idStadium")
-    private List<GameMatch> gameMatchList;
 }

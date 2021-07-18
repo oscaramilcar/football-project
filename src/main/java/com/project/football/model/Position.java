@@ -23,8 +23,4 @@ public class Position {
 
     @Column(name = "name")
     private String name;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idPosition")
-    private List<Player> playerList;
 }
