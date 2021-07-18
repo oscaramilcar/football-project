@@ -20,7 +20,7 @@ public class Card {
     @Column(name= "idCard")
     private long idCard;
 
-    @Column(name= "color")
+    @Column(name= "color", columnDefinition = "enum('YELLOW','RED')")
     private String color;
 
     @Column(name = "amount")
