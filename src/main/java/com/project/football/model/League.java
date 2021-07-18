@@ -1,5 +1,6 @@
 package com.project.football.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,9 +27,10 @@ public class League {
     private String name;
 
     @Column(name= "year")
-    private Year year;
+    private int year;
 
+    /*@JsonIgnoreProperties(value={"league", "hibernateLazyInitializer", "handler"}, allowSetters=true)
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "idLeague")
-    private List<GameMatch> gameMatchList;
+    private List<GameMatch> gameMatchList;*/
 }

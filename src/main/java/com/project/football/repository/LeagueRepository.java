@@ -1,4 +1,7 @@
 package com.project.football.repository;
 
-public interface LeagueRepository {
+import com.project.football.model.League;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface LeagueRepository extends JpaRepository<League, Long> {
 }
