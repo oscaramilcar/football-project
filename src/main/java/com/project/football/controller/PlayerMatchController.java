@@ -108,7 +108,9 @@ public class PlayerMatchController {
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") long id){
+        var playerMatch = playerMatchRepository.findById(id).orElse(null);
         playerMatchRepository.deleteById(id);
+        getItemAndUpdateScores(playerMatch);
     }
 
     @GetMapping("/team/{id}")
