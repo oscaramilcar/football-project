@@ -15,8 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/playersByMatch")
+@RequestMapping("/statisticsByMatch")
 public class PlayerMatchController {
+
     @Autowired
     private PlayerMatchRepository playerMatchRepository;
     @Autowired
@@ -27,13 +28,34 @@ public class PlayerMatchController {
     private IItem getItem(PlayerMatch playerMatch){
         return new PlayerMatchItem(
                 playerMatch.getIdPlayerMatch(),
-                playerMatch.getPlayer().getName(),
+                playerMatch.getPlayer().getName()+" "+playerMatch.getPlayer().getLastName(),
                 playerMatch.getGoals(),
                 playerMatch.getGameMatch().getLeague().getName(),
                 playerMatch.getGameMatch().getDate()+"",
                 playerMatch.getPlayer().getTeam().getName(),
                 playerMatch.getGameMatch().getIdGameMatch(),
                 playerMatch.getPlayer().getIdPlayer());
+    }
+
+    private IItem getItemAndUpdateScores(PlayerMatch playerMatch){
+        var gameMatch = gameMatchRepository.findById(playerMatch.getGameMatch().getIdGameMatch()).orElse(null);
+        int localGoals= gameMatchRepository.sumGoalsLocalTeam(playerMatch.getGameMatch().getIdGameMatch()).orElse(0);
+        int visitorGoals= gameMatchRepository.sumGoalsVisitorTeam(playerMatch.getGameMatch().getIdGameMatch()).orElse(0);
+
+        if(gameMatch!=null){
+            if(localGoals > visitorGoals){
+                gameMatch.setLocalScore(3);
+                gameMatch.setVisitorScore(0);
+            }else if(localGoals < visitorGoals){
+                gameMatch.setLocalScore(0);
+                gameMatch.setVisitorScore(3);
+            }else{
+                gameMatch.setLocalScore(1);
+                gameMatch.setVisitorScore(1);
+            }
+            gameMatchRepository.save(gameMatch);
+        }
+        return getItem(playerMatch);
     }
 
     @GetMapping
@@ -68,7 +90,7 @@ public class PlayerMatchController {
         var playerMatch = new PlayerMatch(0, player, playerMatchMTP.getGoals(), gameMatch);
         playerMatch = playerMatchRepository.save(playerMatch);
 
-        return getItem(playerMatch);
+        return getItemAndUpdateScores(playerMatch);
     }
 
     @PutMapping
@@ -81,7 +103,7 @@ public class PlayerMatchController {
         playerMatch.setGameMatch(gameMatch);
         playerMatch = playerMatchRepository.save(playerMatch);
 
-        return getItem(playerMatch);
+        return getItemAndUpdateScores(playerMatch);
     }
 
     @DeleteMapping("/{id}")
@@ -97,6 +119,38 @@ public class PlayerMatchController {
         if(!playerMatchList.isEmpty()){
             for(PlayerMatch playerMatch: playerMatchList){
                 if(playerMatch.getPlayer().getTeam().getIdTeam()==id){
+                    itemList.add(getItem(playerMatch));
+                }
+            }
+        }
+
+        return itemList;
+    }
+
+    @GetMapping("/match/{id}")
+    public List<IItem> getAllByMatch(@PathVariable("id") long id){
+        List<PlayerMatch> playerMatchList = playerMatchRepository.findAll();
+        List<IItem> itemList = new ArrayList<>();
+
+        if(!playerMatchList.isEmpty()){
+            for(PlayerMatch playerMatch: playerMatchList){
+                if(playerMatch.getGameMatch().getIdGameMatch()==id){
+                    itemList.add(getItem(playerMatch));
+                }
+            }
+        }
+
+        return itemList;
+    }
+
+    @GetMapping("/league/{id}")
+    public List<IItem> getAllByLeague(@PathVariable("id") long id){
+        List<PlayerMatch> playerMatchList = playerMatchRepository.findAll();
+        List<IItem> itemList = new ArrayList<>();
+
+        if(!playerMatchList.isEmpty()){
+            for(PlayerMatch playerMatch: playerMatchList){
+                if(playerMatch.getGameMatch().getLeague().getIdLeague()==id){
                     itemList.add(getItem(playerMatch));
                 }
             }
