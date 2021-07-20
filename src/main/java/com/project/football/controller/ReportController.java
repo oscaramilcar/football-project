@@ -21,5 +21,4 @@ public class ReportController {
     public String generateReport(@PathVariable("format") String format) throws JRException, FileNotFoundException {
         return reportService.exportReport(format);
     }
-
 }
