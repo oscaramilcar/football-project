@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -43,15 +42,11 @@ public class GameMatch {
     private Stadium stadium;
 
     @Column(name= "date")
-    private Date date;
+    private String date;
 
     @Column(name= "localScore")
     private int localScore;
 
     @Column(name= "visitorScore")
     private int visitorScore;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idGameMatch")
-    private List<PlayerMatch> playerMatchList;
 }
