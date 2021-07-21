@@ -1,10 +1,13 @@
 package com.project.football.repository;
 
+import com.project.football.item.GolsByGameMatchItem;
 import com.project.football.model.GameMatch;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -32,5 +35,8 @@ public interface GameMatchRepository extends JpaRepository<GameMatch, Long> {
     Optional<Integer> visitorTieMatchesByLeague(long idLeague, long idTeam);
     @Query(value = "SELECT COUNT(g.localScore) FROM GameMatch g where g.localScore=1 AND g.localTeam.idTeam=?2 AND g.league.idLeague=?1")
     Optional<Integer> localTieMatchesByLeague(long idLeague, long idTeam);
+
+    @Query(value = "{CALL getGoalsByMatch(:idL)}", nativeQuery = true)
+    List<GolsByGameMatchItem> goalsByMatch(@Param("idL") Long idL);
 
 }
