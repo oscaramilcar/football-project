@@ -1,10 +1,8 @@
 package com.project.football.services;
 
-import com.project.football.model.Team;
-import com.project.football.repository.TeamRepository;
+import com.project.football.item.TeamClassificationItem;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.design.JRDesignQuery;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
@@ -22,26 +20,27 @@ import java.util.Map;
 public class ReportService {
 
     @Autowired
-    private TeamRepository teamRepository;
+    private StatisticsReportService statisticsReportService;
 
     public String exportReport(String reportFormat) throws FileNotFoundException, JRException {
         String path = "C:\\Report";
         Map<String, Object> parameters = new HashMap<>();
-        File file = ResourceUtils.getFile("classpath:clubs.jrxml");
-        List<Team> teams = teamRepository.findAll();
+        File file = ResourceUtils.getFile("classpath:stats.jrxml");
+        List<TeamClassificationItem> items = statisticsReportService.getGoalsByMatchByLeague(1);
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
-        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(teams);
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(items);
         parameters.put("createdBy ", "Best Team");
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
         if (reportFormat.equalsIgnoreCase("xlsx")) {
             JRXlsxExporter exporter = new JRXlsxExporter();
             exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(path + "\\clubs.xlsx"));
+            exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(path + "\\stats.xlsx"));
             exporter.exportReport();
         }
         if (reportFormat.equalsIgnoreCase("pdf")) {
-            JasperExportManager.exportReportToPdfFile(jasperPrint, path + "\\clubs.pdf");
+            JasperExportManager.exportReportToPdfFile(jasperPrint, path + "\\stats.pdf");
         }
         return "Report generated in path : " + path;
     }
+
 }
