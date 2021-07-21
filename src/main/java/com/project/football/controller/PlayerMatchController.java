@@ -43,16 +43,9 @@ public class PlayerMatchController {
         int visitorGoals= gameMatchRepository.sumGoalsVisitorTeam(playerMatch.getGameMatch().getIdGameMatch()).orElse(0);
 
         if(gameMatch!=null){
-            if(localGoals > visitorGoals){
-                gameMatch.setLocalScore(3);
-                gameMatch.setVisitorScore(0);
-            }else if(localGoals < visitorGoals){
-                gameMatch.setLocalScore(0);
-                gameMatch.setVisitorScore(3);
-            }else{
-                gameMatch.setLocalScore(1);
-                gameMatch.setVisitorScore(1);
-            }
+
+            gameMatch.setLocalScore(localGoals);
+            gameMatch.setVisitorScore(visitorGoals);
             gameMatchRepository.save(gameMatch);
         }
         return getItem(playerMatch);
