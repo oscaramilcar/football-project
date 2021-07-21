@@ -23,7 +23,7 @@ public class ReportService {
     private StatisticsReportService statisticsReportService;
 
     public String exportReport(String reportFormat) throws FileNotFoundException, JRException {
-        String path = "C:\\Report";
+        String path = "C:\\";
         Map<String, Object> parameters = new HashMap<>();
         File file = ResourceUtils.getFile("classpath:stats.jrxml");
         List<TeamClassificationItem> items = statisticsReportService.getGoalsByMatchByLeague(1);
