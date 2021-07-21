@@ -1,6 +1,7 @@
 package com.project.football.controller;
 
 import com.project.football.item.GameMatchItem;
+import com.project.football.item.GolsByGameMatchItem;
 import com.project.football.item.IItem;
 import com.project.football.model.GameMatch;
 import com.project.football.repository.*;
@@ -137,5 +138,9 @@ public class GameMatchController {
         }
 
         return itemList;
+    }
+    @GetMapping("/league/games/{idL}")
+    public List<GolsByGameMatchItem> getGoalsByMatch(@PathVariable("idL") long idL){
+        return gameMatchRepository.goalsByMatch(idL);
     }
 }
